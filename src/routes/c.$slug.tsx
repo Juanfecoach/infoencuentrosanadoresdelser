@@ -2,7 +2,6 @@ import { createFileRoute, notFound, Link, redirect, useNavigate, useRouter } fro
 import { getComuna } from "@/lib/comunas";
 import { getMe, logout } from "@/lib/auth.functions";
 import { useServerFn } from "@tanstack/react-start";
-import { useEffect, useState } from "react";
 import {
   getScheduleForComuna,
   getNextEncounter,
