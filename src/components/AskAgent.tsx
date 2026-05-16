@@ -14,8 +14,22 @@ export function AskAgent({ comunaSlug }: { comunaSlug: string }) {
     body: { comunaSlug },
   });
 
+  const initialMessages: UIMessage[] = [
+    {
+      id: "pera-welcome",
+      role: "assistant",
+      parts: [
+        {
+          type: "text",
+          text: "¡Hola! Soy Pera, tu asistente del Diplomado Sanadores del Ser. ¿Dime en qué puedo guiarte, cuál es tu pregunta?",
+        },
+      ],
+    },
+  ];
+
   const { messages, sendMessage, status, error } = useChat({
     id: `ask-${comunaSlug}`,
+    messages: initialMessages,
     transport,
   });
 
@@ -47,31 +61,24 @@ export function AskAgent({ comunaSlug }: { comunaSlug: string }) {
         onClick={() => setOpen((o) => !o)}
         className="fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-primary-foreground shadow-lg transition hover:opacity-90"
         style={{ boxShadow: "var(--shadow-soft)" }}
-        aria-label="Abrir asistente"
+        aria-label="Abrir asistente Pera"
       >
         {open ? <X size={18} /> : <MessageCircle size={18} />}
-        <span className="text-sm font-medium">Pregúntame</span>
+        <span className="text-sm font-medium">Habla con Pera</span>
       </button>
 
       {open && (
         <div className="fixed bottom-20 right-5 z-50 flex h-[min(560px,80vh)] w-[min(380px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-2xl">
           <header className="border-b border-border bg-muted/40 px-4 py-3">
             <p className="text-xs uppercase tracking-[0.2em] text-primary">
-              Asistente del diplomado
+              Pera · Asistente del diplomado
             </p>
             <p className="font-serif text-lg leading-tight">
-              Pregúntame lo que quieras
+              Hola, soy Pera
             </p>
           </header>
 
           <div ref={scrollRef} className="flex-1 space-y-4 overflow-y-auto p-4 text-sm">
-            {messages.length === 0 && (
-              <div className="rounded-xl bg-muted/50 p-3 text-muted-foreground">
-                Hola 👋 Soy tu asistente del Diplomado Sanadores del Ser.
-                Pregúntame sobre los módulos, tu próximo encuentro, el bus o
-                las recomendaciones.
-              </div>
-            )}
             {messages.map((m: UIMessage) => (
               <Bubble key={m.id} role={m.role}>
                 {m.parts
