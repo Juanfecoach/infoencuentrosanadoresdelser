@@ -1,6 +1,7 @@
-import { createFileRoute, notFound, Link } from "@tanstack/react-router";
+import { createFileRoute, notFound, Link, redirect, useNavigate, useRouter } from "@tanstack/react-router";
 import { getComuna } from "@/lib/comunas";
-import { getLockedComuna, setLockedComuna } from "@/lib/comuna-lock";
+import { getMe, logout } from "@/lib/auth.functions";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import {
   getScheduleForComuna,
@@ -17,10 +18,20 @@ import {
 import { AskAgent } from "@/components/AskAgent";
 
 export const Route = createFileRoute("/c/$slug")({
-  loader: ({ params }) => {
+  beforeLoad: async ({ params }) => {
+    const me = await getMe();
+    if (!me) {
+      throw redirect({ to: "/" });
+    }
+    if (me.comuna_slug !== params.slug) {
+      throw redirect({ to: "/c/$slug", params: { slug: me.comuna_slug } });
+    }
+    return { me };
+  },
+  loader: ({ params, context }) => {
     const comuna = getComuna(params.slug);
     if (!comuna) throw notFound();
-    return { comuna };
+    return { comuna, me: (context as { me: { cedula: string; nombre: string; comuna_slug: string } }).me };
   },
   head: ({ loaderData }) => {
     const c = loaderData?.comuna;
@@ -53,51 +64,21 @@ export const Route = createFileRoute("/c/$slug")({
 });
 
 function ComunaPage() {
-  const { comuna } = Route.useLoaderData();
-  const [blockedBy, setBlockedBy] = useState<string | null>(null);
+  const { comuna, me } = Route.useLoaderData();
+  const router = useRouter();
+  const navigate = useNavigate();
+  const logoutFn = useServerFn(logout);
+  const firstName = me.nombre.split(" ")[0] || me.nombre;
 
-  useEffect(() => {
-    const locked = getLockedComuna();
-    if (!locked) {
-      setLockedComuna(comuna.slug);
-      return;
+  async function handleLogout() {
+    try {
+      await logoutFn();
+    } catch {
+      // redirect from server throws — ignore
     }
-    if (locked !== comuna.slug) {
-      setBlockedBy(locked);
-    }
-  }, [comuna.slug]);
-
-  if (blockedBy) {
-    const lockedComuna = getComuna(blockedBy);
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-background px-6 text-center">
-        <div className="max-w-md">
-          <p className="text-xs uppercase tracking-[0.3em] text-primary">
-            Acceso restringido
-          </p>
-          <h1 className="mt-3 font-serif text-3xl md:text-4xl">
-            Este enlace no es de tu comuna
-          </h1>
-          <p className="mt-4 text-muted-foreground">
-            Cada comuna tiene su propio enlace y solo puede ver su información.
-            Tú estás registrado/a en{" "}
-            <strong className="text-foreground">
-              {lockedComuna
-                ? `Comuna ${lockedComuna.number} ${lockedComuna.name}`
-                : "tu comuna"}
-            </strong>
-            .
-          </p>
-          {lockedComuna && (
-            <Link
-              to="/c/$slug"
-              params={{ slug: lockedComuna.slug }}
-              className="mt-6 inline-block rounded-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground"
-            >
-              Ir a mi comuna
-            </Link>
-          )}
-        </div>
+    await router.invalidate();
+    navigate({ to: "/" });
+  }
       </div>
     );
   }
