@@ -5,6 +5,14 @@ import {
   getNextEncounter,
   formatLongDate,
 } from "@/lib/schedule";
+import { buildFaqs } from "@/lib/faqs";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { AskAgent } from "@/components/AskAgent";
 
 export const Route = createFileRoute("/c/$slug")({
   loader: ({ params }) => {
@@ -46,6 +54,7 @@ function ComunaPage() {
   const { comuna } = Route.useLoaderData();
   const schedule = getScheduleForComuna(comuna.slug);
   const next = getNextEncounter(schedule);
+  const faqs = buildFaqs(comuna, next?.topic ?? null);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -199,10 +208,46 @@ function ComunaPage() {
           <p className="mt-6 text-sm text-muted-foreground italic">Les esperamos.</p>
         </section>
 
+        {/* Preguntas frecuentes */}
+        <section>
+          <h2 className="text-2xl md:text-3xl font-serif">Preguntas frecuentes</h2>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Resolvemos las dudas más comunes sobre el diplomado y los encuentros.
+          </p>
+          <div
+            className="mt-6 rounded-2xl border border-border bg-card overflow-hidden"
+            style={{ boxShadow: "var(--shadow-soft)" }}
+          >
+            <Accordion type="single" collapsible className="divide-y divide-border">
+              {faqs.map((f, i) => (
+                <AccordionItem
+                  key={i}
+                  value={`q-${i}`}
+                  className="border-b-0 px-5"
+                >
+                  <AccordionTrigger className="text-left font-medium hover:no-underline">
+                    {f.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground leading-relaxed">
+                    {f.a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+          <p className="mt-4 text-sm text-muted-foreground">
+            ¿No encuentras tu pregunta? Toca <strong className="text-foreground">Pregúntame</strong>{" "}
+            abajo a la derecha y el asistente te responderá con base en la
+            información de tu comuna.
+          </p>
+        </section>
+
         <footer className="text-center text-xs text-muted-foreground">
           Diplomado Sanadores del Ser · Presupuesto Participativo · Pera de Olmo
         </footer>
       </main>
+
+      <AskAgent comunaSlug={comuna.slug} />
     </div>
   );
 }
