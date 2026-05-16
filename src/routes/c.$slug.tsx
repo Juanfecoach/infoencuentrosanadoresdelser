@@ -71,8 +71,8 @@ function ComunaPage() {
             Comuna {comuna.number} · {comuna.name}
           </h1>
           <p className="mt-4 max-w-2xl text-base md:text-lg opacity-90">
-            Aquí encuentras todos tus encuentros, los facilitadores y las
-            recomendaciones para los sábados en Santa Elena.
+            Aquí podrás ver toda la información de tus encuentros, los
+            facilitadores y las recomendaciones para los sábados en Santa Elena.
           </p>
         </div>
       </header>
@@ -141,7 +141,7 @@ function ComunaPage() {
                       <td className="p-4 align-top">{e.topic}</td>
                       <td className="p-4 align-top">{e.facilitator}</td>
                       <td className="p-4 align-top text-muted-foreground">
-                        {e.atSantaElena ? "Santa Elena" : "En la comuna"}
+                        {e.atSantaElena ? "Santa Elena" : comuna.address}
                       </td>
                     </tr>
                   );
