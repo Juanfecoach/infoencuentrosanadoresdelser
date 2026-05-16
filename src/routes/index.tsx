@@ -75,7 +75,7 @@ function LoginPage() {
           <img
             src={logoSanadores}
             alt="Diplomado Sanadores del Ser"
-            className="mx-auto w-64 md:w-72 rounded-xl"
+            className="mx-auto w-44 sm:w-52 md:w-64 lg:w-72 mb-4 md:mb-6 rounded-xl"
           />
           <p className="mt-3 text-sm opacity-90">
             Ingresa tu número de cédula para ver la información de tu comuna.
