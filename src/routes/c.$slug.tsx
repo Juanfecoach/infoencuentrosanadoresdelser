@@ -79,9 +79,6 @@ function ComunaPage() {
     await router.invalidate();
     navigate({ to: "/" });
   }
-      </div>
-    );
-  }
 
   const schedule = getScheduleForComuna(comuna.slug);
   const next = getNextEncounter(schedule);
@@ -101,10 +98,20 @@ function ComunaPage() {
           <h1 className="mt-3 text-4xl md:text-6xl font-serif">
             Comuna {comuna.number} · {comuna.name}
           </h1>
+          <p className="mt-3 text-base md:text-lg opacity-95">
+            Hola, <strong>{firstName}</strong> 👋
+          </p>
           <p className="mt-4 max-w-2xl text-base md:text-lg opacity-90">
             Aquí podrás ver toda la información de tus encuentros, los
             facilitadores y las recomendaciones para los sábados en Santa Elena.
           </p>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="mt-5 inline-flex items-center rounded-full border border-primary-foreground/40 px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-primary-foreground/90 hover:bg-primary-foreground/10"
+          >
+            Cerrar sesión
+          </button>
         </div>
       </header>
 
