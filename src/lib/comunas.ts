@@ -32,7 +32,7 @@ export const comunas: Comuna[] = [
     address: "Centro de Desarrollo Cultural de Moravia, Calle 82 A #52-25",
     pickupPoint:
       "Centro de Desarrollo Cultural de Moravia, Calle 82 A #52-25, Comuna 4 Aranjuez",
-    departureTime: "7:00 a.m.",
+    departureTime: "8:00 a.m.",
   },
   {
     slug: "villahermosa",
