@@ -203,6 +203,12 @@ function ComunaPage() {
               El bus solo lleva a las personas inscritas en los listados de
               asistencia confirmadas por Pera de Olmo.
             </Bullet>
+            <Bullet>
+              Ten presente que puede presentarse alguna novedad en el punto de
+              parqueo del bus que no podemos anticipar (trabajos de obras
+              públicas, una calle cerrada, etc.). Mantente atento/a a las
+              indicaciones que se envíen al chat de tu comuna.
+            </Bullet>
           </ul>
 
           <p className="mt-6 text-sm text-muted-foreground italic">Les esperamos.</p>
@@ -236,9 +242,9 @@ function ComunaPage() {
             </Accordion>
           </div>
           <p className="mt-4 text-sm text-muted-foreground">
-            ¿No encuentras tu pregunta? Toca <strong className="text-foreground">Pregúntame</strong>{" "}
-            abajo a la derecha y el asistente te responderá con base en la
-            información de tu comuna.
+            ¿No encuentras tu pregunta? Toca <strong className="text-foreground">Habla con Pera</strong>{" "}
+            abajo a la derecha y ella te responderá con base en la información
+            de tu comuna.
           </p>
         </section>
 
