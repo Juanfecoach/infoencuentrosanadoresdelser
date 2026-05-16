@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate, useRouter } from "@tanstack/react-router"
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { loginWithCedula, getMe } from "@/lib/auth.functions";
+import logoSanadores from "@/assets/sanadores-del-ser.png";
 
 export const Route = createFileRoute("/")({
   component: LoginPage,
@@ -71,12 +72,11 @@ function LoginPage() {
     >
       <div className="w-full max-w-md">
         <div className="text-center text-primary-foreground">
-          <p className="text-xs uppercase tracking-[0.3em] opacity-80">
-            Presupuesto Participativo
-          </p>
-          <h1 className="mt-3 font-serif text-4xl md:text-5xl">
-            Diplomado Sanadores del Ser
-          </h1>
+          <img
+            src={logoSanadores}
+            alt="Diplomado Sanadores del Ser"
+            className="mx-auto w-64 md:w-72 rounded-xl"
+          />
           <p className="mt-3 text-sm opacity-90">
             Ingresa tu número de cédula para ver la información de tu comuna.
           </p>
