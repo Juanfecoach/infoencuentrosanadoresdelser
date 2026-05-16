@@ -14,7 +14,27 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      inscritos: {
+        Row: {
+          cedula: string
+          comuna_slug: string
+          created_at: string
+          nombre: string
+        }
+        Insert: {
+          cedula: string
+          comuna_slug: string
+          created_at?: string
+          nombre: string
+        }
+        Update: {
+          cedula?: string
+          comuna_slug?: string
+          created_at?: string
+          nombre?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
