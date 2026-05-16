@@ -1,5 +1,7 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { getComuna } from "@/lib/comunas";
+import { getLockedComuna, setLockedComuna } from "@/lib/comuna-lock";
+import { useEffect, useState } from "react";
 import {
   getScheduleForComuna,
   getNextEncounter,
@@ -52,6 +54,54 @@ export const Route = createFileRoute("/c/$slug")({
 
 function ComunaPage() {
   const { comuna } = Route.useLoaderData();
+  const [blockedBy, setBlockedBy] = useState<string | null>(null);
+
+  useEffect(() => {
+    const locked = getLockedComuna();
+    if (!locked) {
+      setLockedComuna(comuna.slug);
+      return;
+    }
+    if (locked !== comuna.slug) {
+      setBlockedBy(locked);
+    }
+  }, [comuna.slug]);
+
+  if (blockedBy) {
+    const lockedComuna = getComuna(blockedBy);
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background px-6 text-center">
+        <div className="max-w-md">
+          <p className="text-xs uppercase tracking-[0.3em] text-primary">
+            Acceso restringido
+          </p>
+          <h1 className="mt-3 font-serif text-3xl md:text-4xl">
+            Este enlace no es de tu comuna
+          </h1>
+          <p className="mt-4 text-muted-foreground">
+            Cada comuna tiene su propio enlace y solo puede ver su información.
+            Tú estás registrado/a en{" "}
+            <strong className="text-foreground">
+              {lockedComuna
+                ? `Comuna ${lockedComuna.number} ${lockedComuna.name}`
+                : "tu comuna"}
+            </strong>
+            .
+          </p>
+          {lockedComuna && (
+            <Link
+              to="/c/$slug"
+              params={{ slug: lockedComuna.slug }}
+              className="mt-6 inline-block rounded-full bg-primary px-5 py-3 text-sm font-medium text-primary-foreground"
+            >
+              Ir a mi comuna
+            </Link>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   const schedule = getScheduleForComuna(comuna.slug);
   const next = getNextEncounter(schedule);
   const faqs = buildFaqs(comuna, next?.topic ?? null);
