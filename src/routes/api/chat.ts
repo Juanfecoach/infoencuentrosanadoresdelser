@@ -1,7 +1,7 @@
 import "@tanstack/react-start";
 import { createFileRoute } from "@tanstack/react-router";
 import { convertToModelMessages, streamText, type UIMessage } from "ai";
-import { createLovableAiGatewayProvider } from "@/lib/ai-gateway";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { DIPLOMADO_KNOWLEDGE } from "@/lib/diplomado-knowledge";
 import { getComuna } from "@/lib/comunas";
 import {
@@ -70,13 +70,13 @@ export const Route = createFileRoute("/api/chat")({
           return new Response("Messages are required", { status: 400 });
         }
 
-        const key = process.env.LOVABLE_API_KEY;
+        const key = process.env.GEMINI_API_KEY;
         if (!key) {
-          return new Response("Missing LOVABLE_API_KEY", { status: 500 });
+          return new Response("Missing GEMINI_API_KEY", { status: 500 });
         }
 
-        const gateway = createLovableAiGatewayProvider(key);
-        const model = gateway("google/gemini-3-flash-preview");
+        const google = createGoogleGenerativeAI({ apiKey: key });
+        const model = google("gemini-2.5-flash");
 
         const result = streamText({
           model,
