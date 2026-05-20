@@ -1,7 +1,14 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "tanstack-start-app",
+  "name": "infoencuentrosanadoresdelser",
   "compatibility_date": "2025-09-24",
   "compatibility_flags": ["nodejs_compat"],
   "main": "src/server.ts",
+  "vars": {
+    "SUPABASE_URL": "https://udwhgwpkfmylnfiwlgav.supabase.co",
+    "VITE_SUPABASE_URL": "https://udwhgwpkfmylnfiwlgav.supabase.co",
+    "VITE_SUPABASE_PROJECT_ID": "udwhgwpkfmylnfiwlgav",
+    "SUPABASE_PUBLISHABLE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVkd2hnd3BrZm15bG5maXdsZ2F2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNDA0NTYsImV4cCI6MjA5NDcxNjQ1Nn0.z1hct_Lr4ofJVTEa0XVJcZLPYcwAAWVw4oz6iuY3j5w",
+    "VITE_SUPABASE_PUBLISHABLE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVkd2hnd3BrZm15bG5maXdsZ2F2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxNDA0NTYsImV4cCI6MjA5NDcxNjQ1Nn0.z1hct_Lr4ofJVTEa0XVJcZLPYcwAAWVw4oz6iuY3j5w"
+  }
 }
