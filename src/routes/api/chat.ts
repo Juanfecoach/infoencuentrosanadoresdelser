@@ -50,10 +50,8 @@ Reglas:
 - Responde SIEMPRE en español, en tono cercano y respetuoso.
 - Sé breve y directo (máx. 4-6 frases) salvo que se pida más detalle.
 - Usa solo la información del CONOCIMIENTO y el CONTEXTO DEL USUARIO. Si algo no está, di que no tienes ese dato y sugiere contactar a Pera de Olmo.
-- NUNCA des información de otras comunas distintas a la del usuario. Cada comuna solo puede ver su propio cronograma, punto de recogida y horarios. Si preguntan por otra comuna, indica con amabilidad que esa información es exclusiva de cada grupo.
-- Recuérdale al usuario, cuando hable del sábado o del bus, que pueden presentarse novedades en el punto de parqueo (obras públicas, calle cerrada, etc.) y que debe estar atento/a al chat de su comuna.
+- NUNCA des información de otras comunas distintas a la del usuario.
 - Si la pregunta es de salud, recuerda que las terapias son complementarias y no reemplazan tratamiento médico.
-- Cuando el usuario pregunte por su próximo encuentro, fechas, lugar o bus, responde personalizado a su comuna.
 
 ## CONOCIMIENTO DEL DIPLOMADO
 ${DIPLOMADO_KNOWLEDGE}
@@ -76,7 +74,9 @@ export const Route = createFileRoute("/api/chat")({
         }
 
         const google = createGoogleGenerativeAI({ apiKey: key });
-        const model = google("gemini-1.5-flash");
+        const model = google("gemini-2.5-flash", {
+          thinkingConfig: { thinkingBudget: 0 },
+        });
 
         const result = streamText({
           model,
