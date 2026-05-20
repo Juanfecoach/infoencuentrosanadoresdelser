@@ -76,7 +76,7 @@ export const Route = createFileRoute("/api/chat")({
         }
 
         const google = createGoogleGenerativeAI({ apiKey: key });
-        const model = google("gemini-2.0-flash");
+        const model = google("gemini-1.5-flash");
 
         const result = streamText({
           model,
